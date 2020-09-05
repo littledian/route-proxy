@@ -1,29 +1,21 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
+logs/
+npm-debug.log
+node_modules/
+coverage/
+.idea/
+run/
+logs/
 .DS_Store
-.env*
-.idea
+.vscode
+*.swp
+*.lock
+*.js
+!.autod.conf.js
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# lock files
-yarn.lock
-package-lock.json
-
-# env files
+app/**/*.js
+test/**/*.js
+config/**/*.js
+app/**/*.map
+test/**/*.map
+config/**/*.map
 .env

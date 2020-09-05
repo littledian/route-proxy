@@ -1,13 +1,35 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
-    "esModuleInterop": true,
+    "target": "es2017",
     "module": "commonjs",
-    "outDir": "dist",
-    "sourceMap": true,
-    "sourceRoot": "src",
-    "target": "esnext"
+    "strict": true,
+    "noImplicitAny": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "charset": "utf8",
+    "allowJs": false,
+    "pretty": true,
+    "noEmitOnError": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "strictPropertyInitialization": false,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "inlineSourceMap": true,
+    "importHelpers": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/typings": ["typings"],
+      "@/*": ["app/*"]
+    }
   },
   "exclude": [
-    "node_modules"
+    "app/public",
+    "app/views",
+    "node_modules*"
   ]
 }
