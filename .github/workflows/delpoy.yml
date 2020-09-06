@@ -1,0 +1,42 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  delpoy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH Remote deploy
+        uses: docker://evaneos/ssh-action:0.1.0
+        with: 
+          hosts: 47.99.66.0
+          user: ${{ secrets.REMOTE_USERNAME }}
+          password: ${{ secrets.REMOTE_PASSWORD }}
+          commands: |
+            have=$(docker inspect --format='{{.Name}}' $(docker ps -aq) |grep route-proxy  | cut -d"/" -f2)
+            if [[ "$have" == route-proxy ]]; then \
+              docker container stop route-proxy; \
+              docker container rm route-proxy; \
+            fi
+            docker rmi registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:latest
+            docker run \
+              -p 3000:7001 \
+              --name route-proxy \
+              --restart always \
+              -e DB_HOST=${{ secrets.DB_HOST }} \
+              -e DB_PORT=${{ secrets.DB_PORT }} \
+              -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
+              -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              -e DB_DATABASE=${{ secrets.DB_DATABASE }} \
+              -e REDIS_HOST=${{ secrets.REDIS_HOST }} \
+              -e REDIS_PORT=${{ secrets.REDIS_PORT }} \
+              -e REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} \
+              -e REDIS_DB=${{ secrets.REDIS_DB }} \
+              -d registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:latest
