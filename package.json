@@ -8,8 +8,8 @@
     "declarations": true
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-route-proxy",
-    "stop": "egg-scripts stop --title=egg-server-route-proxy",
+    "start": "egg-scripts start --title=egg-server-route-proxy --sticky",
+    "stop": "egg-scripts stop --title=egg-server-route-proxy --sticky",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
     "test-local": "egg-bin test",
@@ -58,15 +58,8 @@
     "node": ">=8.9.0"
   },
   "ci": {
-    "version": "8"
+    "type": ""
   },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "eslintIgnore": [
-    "coverage"
-  ],
   "author": "",
   "license": "MIT",
   "gitHooks": {
