@@ -1,11 +1,17 @@
 import { Application } from 'egg';
 import { BuildOptions, Model } from 'sequelize';
 
+export enum ProxyStatus {
+  running = 1,
+  stopped = 2
+}
+
 export interface ProxyItemAttributes extends Model {
   id: number;
   urlPattern: string;
   proxyServer: string;
   testUrl: string;
+  status: ProxyStatus;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -28,7 +34,8 @@ export default (app: Application): ProxyItemStatic => {
         unique: true
       },
       proxyServer: STRING(256),
-      testUrl: STRING(256)
+      testUrl: STRING(256),
+      status: INTEGER
     },
     {
       underscored: true,
