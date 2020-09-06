@@ -25,6 +25,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm ci
+      - run: echo $tag  
       - run: docker build . --file Dockerfile --tag registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:latest
       - run: docker tag registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:latest registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:$tag
       - run: docker login -u=${{ secrets.DOCKER_USERNAME }} -p=${{ secrets.DOCKER_PASSWORD }}
