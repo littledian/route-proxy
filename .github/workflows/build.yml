@@ -21,7 +21,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: |
           npm install \
-          && npm ci \
+          && npm run ci \
           && docker build . --file Dockerfile --tag registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:latest \
           && docker tag registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:latest registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:${{ steps.date.outputs.date }} \
           && docker login -u=${{ secrets.DOCKER_USERNAME }} -p=${{ secrets.DOCKER_PASSWORD }} registry.cn-hongkong.aliyuncs.com \
