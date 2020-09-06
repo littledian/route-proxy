@@ -13,10 +13,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env: 
-      tag: $(date +%s)
+      tag: ${{(date "+%Y%m%d%H%M%S")}}
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
