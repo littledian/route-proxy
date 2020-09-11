@@ -1,15 +1,23 @@
 import { Service } from 'egg';
 import { ProxyItemAttributes } from '@/model/ProxyItem';
-import { WithOutTimeStamp } from '@/typings';
+import { WithOutTimeStamp, WithOutTimeStampAndId } from '@/typings';
 
 export default class ProxyServer extends Service {
   private REDIS_LIST_KEY = 'proxy_list';
 
-  async getProxyList(): Promise<ProxyItemAttributes[]> {
+  async getList(): Promise<ProxyItemAttributes[]> {
     const { app } = this;
     return JSON.parse((await app.redis.get(this.REDIS_LIST_KEY)) || '[]');
   }
-  async addProxyItem(item: WithOutTimeStamp<ProxyItemAttributes>): Promise<void> {
+  async getById(id: number): Promise<ProxyItemAttributes | null> {
+    const {
+      ctx: {
+        model: { ProxyItem }
+      }
+    } = this;
+    return ProxyItem.findByPk(id, { raw: true }) as any;
+  }
+  async add(item: WithOutTimeStampAndId<ProxyItemAttributes>): Promise<void> {
     const {
       ctx: {
         model: { ProxyItem }
@@ -20,14 +28,14 @@ export default class ProxyServer extends Service {
     const list = await ProxyItem.findAll({ raw: true });
     await app.redis.set(this.REDIS_LIST_KEY, JSON.stringify(list));
   }
-  async removeProxyItem(item: ProxyItemAttributes | string | number): Promise<void> {
+  async remove(item: ProxyItemAttributes | string | number): Promise<void> {
     const {
       ctx: {
         model: { ProxyItem }
       },
       app
     } = this;
-    const list = await this.getProxyList();
+    const list = await this.getList();
     let index = -1;
     if (typeof item === 'string') {
       await ProxyItem.destroy({
@@ -46,6 +54,19 @@ export default class ProxyServer extends Service {
       index = list.findIndex((proxy) => proxy.id === id);
     }
     list.splice(index, 1);
+    await app.redis.set(this.REDIS_LIST_KEY, JSON.stringify(list));
+  }
+  async update(item: WithOutTimeStamp<ProxyItemAttributes>): Promise<void> {
+    const {
+      ctx: {
+        model: { ProxyItem }
+      },
+      app
+    } = this;
+
+    const { id, ...rest } = item;
+    await ProxyItem.update(rest, { where: { id } });
+    const list = await ProxyItem.findAll({ raw: true });
     await app.redis.set(this.REDIS_LIST_KEY, JSON.stringify(list));
   }
 }

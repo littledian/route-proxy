@@ -14,15 +14,17 @@ export default class UpdateProxyList extends Subscription {
     const {
       service: { proxyServer }
     } = ctx;
-    const list = await proxyServer.getProxyList();
+    const list = await proxyServer.getList();
     await Promise.all(
       list.map((item) => {
         return new Promise((resolve) => {
           ctx
             .curl(item.testUrl)
-            .then(resolve)
+            .then(() => {
+              resolve();
+            })
             .catch(() => {
-              proxyServer.removeProxyItem(item).then(resolve);
+              proxyServer.remove(item).then(resolve);
             });
         });
       })

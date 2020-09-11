@@ -8,7 +8,7 @@ export default (appInfo: EggAppInfo) => {
   config.keys = appInfo.name + '_1599268176122_7234';
 
   // add your egg config in here
-  config.middleware = [];
+  config.middleware = ['proxy'];
 
   config.sequelize = {
     dialect: 'mysql',
@@ -27,6 +27,14 @@ export default (appInfo: EggAppInfo) => {
       db: Number(process.env.REDIS_DB)
     }
   };
+
+  config.security = {
+    csrf: {
+      enable: false
+    }
+  };
+
+  config.proxy = true;
 
   // add your special config in here
   const bizConfig = {};

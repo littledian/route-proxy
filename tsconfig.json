@@ -22,6 +22,7 @@
     "inlineSourceMap": true,
     "importHelpers": true,
     "baseUrl": ".",
+    "esModuleInterop": true,
     "paths": {
       "@/typings": ["typings"],
       "@/*": ["app/*"]

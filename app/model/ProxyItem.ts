@@ -6,7 +6,7 @@ export enum ProxyStatus {
   stopped = 2
 }
 
-export interface ProxyItemAttributes extends Model {
+export interface ProxyItemAttributes {
   id: number;
   urlPattern: string;
   proxyServer: string;

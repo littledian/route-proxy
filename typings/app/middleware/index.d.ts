@@ -2,10 +2,10 @@
 // Do not modify this file!!!!!!!!!
 
 import 'egg';
-import ExportManagement from '../../../app/controller/management';
+import ExportProxy from '../../../app/middleware/proxy';
 
 declare module 'egg' {
-  interface IController {
-    management: ExportManagement;
+  interface IMiddleware {
+    proxy: typeof ExportProxy;
   }
 }
