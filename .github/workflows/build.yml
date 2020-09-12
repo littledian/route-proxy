@@ -19,10 +19,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
-      - run: npm ci
-      - run: docker build . --file Dockerfile --tag registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:latest
-      - run: docker tag registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:latest registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:${{ steps.date.outputs.date }}
-      - run: docker login -u=${{ secrets.DOCKER_USERNAME }} -p=${{ secrets.DOCKER_PASSWORD }} registry.cn-hongkong.aliyuncs.com
-      - run: docker push registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:latest
-      - run: docker push registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:${{ steps.date.outputs.date }}
+      - run: |
+          npm install \
+          && npm run ci \
+          && docker build . --file Dockerfile --tag registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:latest \
+          && docker tag registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:latest registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:${{ steps.date.outputs.date }} \
+          && docker login -u=${{ secrets.DOCKER_USERNAME }} -p=${{ secrets.DOCKER_PASSWORD }} registry.cn-hongkong.aliyuncs.com \
+          && docker push registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:latest \
+          && docker push registry.cn-hongkong.aliyuncs.com/littledian/route-proxy:${{ steps.date.outputs.date }}
