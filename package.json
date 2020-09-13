@@ -30,12 +30,11 @@
     "egg-validate": "^2.0.2",
     "http-proxy-middleware": "^1.0.5",
     "koa-connect": "^2.1.0",
-    "micromatch": "^4.0.2",
-    "mysql2": "^2.1.0"
+    "mysql2": "^2.1.0",
+    "tslib": "^1.9.0"
   },
   "devDependencies": {
     "@types/http-proxy": "^1.17.4",
-    "@types/micromatch": "^4.0.1",
     "@types/mocha": "^2.2.40",
     "@types/node": "^7.0.12",
     "@types/supertest": "^2.0.0",
@@ -52,7 +51,6 @@
     "eslint-plugin-prettier": "^3.1.4",
     "lint-staged": "^10.2.13",
     "prettier": "^2.1.1",
-    "tslib": "^1.9.0",
     "typescript": "^3.0.0",
     "yorkie": "^2.0.0"
   },
