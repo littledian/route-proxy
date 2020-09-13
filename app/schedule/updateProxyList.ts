@@ -15,7 +15,7 @@ export default class UpdateProxyList extends Subscription {
       service: { constance },
       model: { ProxyItem }
     } = ctx;
-    const list = ProxyItem.findAll({ raw: true });
+    const list = await ProxyItem.findAll({ raw: true });
     await app.redis.set(constance.REDIS_LIST_KEY, JSON.stringify(list));
   }
 }
