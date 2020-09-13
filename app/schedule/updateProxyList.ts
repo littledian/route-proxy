@@ -10,24 +10,12 @@ export default class UpdateProxyList extends Subscription {
 
   // subscribe 是真正定时任务执行时被运行的函数
   async subscribe() {
-    const { ctx } = this;
+    const { ctx, app } = this;
     const {
-      service: { proxyServer }
+      service: { constance },
+      model: { ProxyItem }
     } = ctx;
-    const list = await proxyServer.getList();
-    await Promise.all(
-      list.map((item) => {
-        return new Promise((resolve) => {
-          ctx
-            .curl(item.testUrl)
-            .then(() => {
-              resolve();
-            })
-            .catch(() => {
-              proxyServer.remove(item).then(resolve);
-            });
-        });
-      })
-    );
+    const list = ProxyItem.findAll({ raw: true });
+    await app.redis.set(constance.REDIS_LIST_KEY, JSON.stringify(list));
   }
 }
